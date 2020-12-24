@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport" name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1; user-scalable=no;">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div style="width: 400px; margin: 0 auto">
+    <div><input type="number" value="" id="input1"></div>
+    <div><input type="text" value="" disabled id="input2"></div>
+</div>
+<script>
+  let input1 = document.getElementById('input1')
+  let input2 = document.getElementById('input2')
+  input1.oninput = function (event) {
+    // 字符; del => null; 字母; 0
+    var data = event.data
+    if(data >= 0 || data <= 9 || data === null) {
+      if (data === null) {
+        let arr = input2.value.split("")
+        arr.splice(arr.length - 1, 1)
+        input2.value = arr.join("")
+      } else {
+        let show = Number(data) * 2 >= 10 ? Number(data) * 2 - 10 : Number(data) * 2
+        input2.value = input2.value + show.toString()
+      }
+    }
+  }
+</script>
+</body>
+</html>
