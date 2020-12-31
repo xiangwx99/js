@@ -2,9 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
-$END$
+<div>
+    <input type="text" id="input">
+    <span id="text"></span>
+</div>
 </body>
 </html>
+<script>
+  let obj = {};
+  let obj1 = new Proxy(obj, {
+    // target就是第一个参数obj, receive就是返回的obj(返回的proxy对象)
+    get: function (target, key, receive) {
+      // 返回该属性值
+      return target[key];
+    },
+    set: function (target, key, newVal, receive) {
+      // 执行赋值操作
+      target[key] = newVal;
+      document.getElementById('text').innerHTML = target[key];
+    }
+  })
+  document.addEventListener('keyup', function (e) {
+    obj1[0] = e.target.value;
+  });
+</script>

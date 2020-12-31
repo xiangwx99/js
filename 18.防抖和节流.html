@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <title>防抖和节流</title>
+        <meta charset="utf-8">
+    </head>
+
+    <body>
+        <input type="text" id="input">
+    <script>
+        // 1. 防抖函数
+        function debounce(func, wait = 1000) {
+          let timer
+          console.log("===> 触发debounce")
+          return function() {
+            let context = this, args = arguments
+            let latter = function() {
+              timer = null
+              func.apply(context, args)
+            }
+            clearTimeout(timer)
+            timer = setTimeout(latter, wait)
+          }
+        }
+
+        // 2. 节流函数
+        function throttle(func, wait, mustRun) {
+          let timer,
+              startTime = new Date()
+          return function() {
+            let context = this,
+                args = arguments,
+                curTime = new Date()
+            clearTimeout(timer)
+            if(curTime - startTime >= mustRun) {
+              func.apply(context, args)
+              startTime = curTime
+            } else {
+              timer = setTimeout(func, wait)
+            }
+          }
+        }
+
+        let input = document.getElementById('input')
+        // input.addEventListener('input', debounce(function() {
+        //     console.log("====>")
+        // }, 2000))
+
+        input.addEventListener('input', throttle(function() {
+          console.log("=====>throttle")
+        }, 1000))
+    </script>
+    </body>
+</html>

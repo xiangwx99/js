@@ -1,24 +1,44 @@
-// getters state mutation action module
+console.log('1');
 
-function C() {
-  let a = b = 0
-  a++
-  return a
-}
+// 宏1
+setTimeout(function() {
+  console.log('2');
+  process.nextTick(function() {
+    console.log('3');
+  })
+  new Promise(function(resolve) {
+    console.log('4');
+    resolve();
+  }).then(function() {
+    console.log('5')
+  })
+})
 
-C()
-console.log(typeof a, typeof b)
-console.log(b)
+// 微1
+new Promise(function(resolve) {
+  console.log('7');
+  resolve();
+}).then(function() {
+  console.log('8')
+})
+process.nextTick(function() {
+  console.log('6');
+})
 
-// ``模板字符串  spread/rest  对象解构 箭头函数 let/const
+// 宏2
+setTimeout(function() {
+  console.log('9');
+  process.nextTick(function() {
+    console.log('10');
+  })
+  new Promise(function(resolve) {
+    console.log('11');
+    resolve();
+  }).then(function() {
+    console.log('12')
+  })
+})
 
-// == 等值
-// === 等值 && 等类型
-
-// setInterval(() => console.log(0), 1000)
-// setTimeout(() => console.log(0), 1000)
-
-// typeof 结果 => undefine object function number string boolean
-// console.log(undefined == null)
-// splice slice contact join unshift shift pop push map filter forEach reduce
-// call => (, ,  ,) apply => (, []), bind => function
+// 微任务首先执行nextTick部分
+// 1 7 8 6 2 4 3 5 9 11 10 12
+// 1 7 6 8 2 4 3 5 9 11 10 12

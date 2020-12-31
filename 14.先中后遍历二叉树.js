@@ -54,11 +54,12 @@ function PostOrderTraverse(biTree) {
   console.log(biTree.data);
 }
 
+
 let myTree = new TreeCode();
 console.log(myTree.createTree());
-console.log('前序遍历')
+console.log('前序遍历======================================>')
 ProOrderTraverse(myTree.createTree());
-console.log('中序遍历')
+console.log('中序遍历======================================>')
 InOrderTraverse(myTree.createTree());
-console.log('后续遍历')
+console.log('后续遍历======================================>')
 PostOrderTraverse(myTree.createTree());
