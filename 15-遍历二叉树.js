@@ -131,6 +131,8 @@ function breadthFirst() {
     breadthFirst()
   }
 }
+breadthFirst()
+console.log(res)
 
 /********************************************** 深度优先遍历 **********************************************/
 // let deepTraversal1 = (node, nodeList = []) => {
@@ -146,13 +148,13 @@ function breadthFirst() {
 // console.log(deepTraversal1(tree))
 
 /********************************************** 根到所有节点的路径 **********************************************/
-function binaryTreePaths(tree) {
-  if(tree === null) return null
-  if(tree.left === null && tree.right === null) {
-    return [tree.value.toString()]
-  }
-  let left = binaryTreePaths(tree.left), right = binaryTreePaths(tree.right)
-  return left.concat(right).map(x => tree.value + '->' + x)
-}
-
-console.log(binaryTreePaths(tree))
+// function binaryTreePaths(tree) {
+//   if(tree === null) return null
+//   if(tree.left === null && tree.right === null) {
+//     return [tree.value.toString()]
+//   }
+//   let left = binaryTreePaths(tree.left), right = binaryTreePaths(tree.right)
+//   return left.concat(right).map(x => tree.value + '->' + x)
+// }
+//
+// console.log(binaryTreePaths(tree))

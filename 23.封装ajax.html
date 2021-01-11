@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+  function _ajax(method, data, url, success) {
+    let xml = new XMLHttpRequest()
+    if(method === 'get') {
+      if(data) {
+        url += '?'
+        url += data
+      }
+      xml.open(method, url)
+      xml.send()
+    } else {
+      xml.open(method, url)
+      xml.send(data)
+    }
+    xml.onreadystatechange = function () {
+      if(xml.readyState === 4 && xml.status === 200) {
+        console.log(xml.responseText)
+      }
+    }
+  }
+  _ajax('get', null, 'http://127.0.0.1:3000')
+</script>
+</body>
+</html>
