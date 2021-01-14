@@ -21,6 +21,7 @@ Per.prototype = new Person()
 let per1 = new Per()
 console.log(per1.name)                 // "KoBe"
 console.log(per1 instanceof Person)    // true
+console.log(per1 instanceof Per)       // true
 
 /**
  * 2. 构造函数继承

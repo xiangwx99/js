@@ -1,121 +1,39 @@
-// console.log('1');
-//
-// // 宏1
-// setTimeout(function() {
-//   console.log('2');
-//   process.nextTick(function() {
-//     console.log('3');
-//   })
-//   new Promise(function(resolve) {
-//     console.log('4');
-//     resolve();
-//   }).then(function() {
-//     console.log('5')
-//   })
-// })
-//
-// // 微1
-// new Promise(function(resolve) {
-//   console.log('7');
-//   resolve();
-// }).then(function() {
-//   console.log('8')
-// })
-// process.nextTick(function() {
-//   console.log('6');
-// })
-//
-// // 宏2
-// setTimeout(function() {
-//   console.log('9');
-//   process.nextTick(function() {
-//     console.log('10');
-//   })
-//   new Promise(function(resolve) {
-//     console.log('11');
-//     resolve();
-//   }).then(function() {
-//     console.log('12')
-//   })
-// })
-
-// 微任务首先执行nextTick部分
-// 1 7 8 6 2 4 3 5 9 11 10 12
-// 1 7 6 8 2 4 3 5 9 11 10 12
-
-// let tree = {
-//   value: "-",
-//   left: {
-//     value: '+',
-//     left: {
-//       value: 'a',
-//     },
-//     right: {
-//       value: '*',
-//       left: {
-//         value: 'b',
-//       },
-//       right: {
-//         value: 'c',
-//       }
+// function deepClone(obj) {
+//   let data = null
+//   if(obj && typeof obj === 'object') {
+//     data = Array.isArray(obj) ? [] : {}
+//     for(let i in obj) {
+//       data[i] = deepClone(obj[i])
 //     }
-//   },
-//   right: {
-//     value: '/',
-//     left: {
-//       value: 'd',
-//     },
-//     right: {
-//       value: 'e',
-//     }
+//   } else {
+//     data = obj
 //   }
+//   return data
 // }
+//
+// console.log(deepClone({name: '猪八戒'}))
 
-// let res = []
-// let stack = [tree]
-// let count = 0
-// function breadthFirst(tree) {
-//   let node = stack[count]
-//   if(node) {
-//     res.push(node.value)
-//     if(node.left) stack.push(node.left)
-//     if(node.right) stack.push(node.right)
-//     count ++
-//     breadthFirst()
-//   }
-// }
-// breadthFirst()
-// console.log(res)
+// let arr = [1, 3, 4, 5, 5, 6, 6, 6, 7, 7]
+// console.log(arr.filter((item, index, arr) => arr.indexOf(item) === index))
 
-// Function.prototype._new = function(Obj, ...args) {
-//   Obj = Obj || window
-//   let obj = Object.create(Obj.prototype)
-//   obj = Obj.apply(obj, args)
-//   return obj instanceof Obj ? obj : Obj
-// }
-//防抖函数
 // function debounce(func, wait) {
 //   let timer
 //   return function() {
-//     let content = this
-//     let arguments = Array.prototype.splice.call(arguments)
-//     if(timer) clearTimeout(timer)
-//     let later = function() {
-//       timer = null
-//       func.apply(content, arguments)
+//     if (timer) clearTimeout(timer)
+//     let self = this, args = Array.prototype.slice.call(arguments)
+//     let later = function () {
+//       clearTimeout(timer)
+//       func.apply(self, args)
 //     }
-//     timer = setTimeout(later, wait)
+//     setTimeout(later, wait)
 //   }
 // }
-// 节流函数
+
 // function throttle(func, wait, mustRun) {
-//   let timer
-//   let start = new Date()
+//   let timer, start = Math.floor(Date.now())
 //   return function() {
-//     let curTime = new Date()
-//     let that = this,
-//         args = Array.prototype.slice.call(arguments)
-//     if (curTime - start >= mustRun) {
+//     let args = Array.prototype.slice.call(arguments), that = this, curTime = Math.floor(Date.now())
+//     if (curTime - start > mustRun) {
 //       func.apply(that, args)
 //       start = curTime
 //     } else {
@@ -124,40 +42,23 @@
 //   }
 // }
 
-// function render() {
-//   console.log("===>渲染完毕")
+// function loop() {
+//   console.log("===>")
+//   setTimeout(loop, 1000)
 // }
-//
-// function observe(obj) {
-//   if(obj && typeof obj === 'object' ) {
-//     Object.keys(obj).forEach(key => { defineReactive(obj, key, obj[key]) })
-//     function defineReactive(obj, key, value) {
-//       observe(obj)
-//       Object.defineProperty(obj, key, {
-//         enumerable: true,
-//         configurable: true,
-//         get: function() {
-//           return value
-//         },
-//         set: function(newV) {
-//           observe(newV)
-//           if(newV !== value) {
-//             value = newV
-//             render()
-//           }
-//         }
-//
-//       })
-//     }
-//   } else {
-//     return
-//   }
-// }
-//
-//
-//
-// let obj = { name: "zhubajie" }
-// observe(obj)
+// loop()
+
+/***
+ *
+ *       1
+ *    2     3
+ *  4  5   6  7
+ *
+ * 先: 1245367
+ * 中: 4251637
+ * 后: 4526731
+ * 广度: 1234567
+ * **/
 // let tree = {
 //   value: 1,
 //   child: {
@@ -173,25 +74,67 @@
 //       }
 //     },
 //     right: {
-//       value: 3
+//       value: 3,
+//       child: {
+//         left: {
+//           value: 6
+//         },
+//         right: {
+//           value: 7
+//         }
+//       }
 //     }
 //   }
 // }
-// let res = []
-// let stack = [tree]  // 将树压入栈中
-// let count = 0
-// function breadthFirst() {
-//   let node = stack[count]
-//   if(node) {
-//     res.push(node.value)
-//     if(node.child && node.child.left) stack.push(node.child.left)
-//     if(node.child && node.child.right) stack.push(node.child.right)
+//
+// let arr1 = [], arr2 = [tree]
+// function xian(tree) {
+//   if (tree) arr1.push(tree.value)
+//   if (tree && tree.child && tree.child.left) xian(tree.child.left)
+//   if (tree && tree.child && tree.child.right) xian(tree.child.right)
+// }
+//
+// let bfsArr = [tree], count = 0
+// function breathFirst() {
+//   let node = bfsArr[count]
+//   if (node) {
+//     if (node && node.child && node.child.left) bfsArr.push(node.child.left)
+//     if (node && node.child && node.child.right) bfsArr.push(node.child.right)
 //     count ++
-//     breadthFirst()
+//     breathFirst()
 //   }
 // }
-// breadthFirst()
-// console.log(res)
+// breathFirst()
+// console.log(bfsArr)
+// xian(tree)
+// console.log(arr1);
+
+// let arr = [1, 2, 3, 4, 5, 6]
+// let length = arr.length
+// for (let i = 0; i < length; i++) {
+//   let index = Math.floor(Math.random() * length)
+//   arr[i] = arr[index]
+//   arr.slice(index, 1)
+// }
+// console.log()
+
+// let arr = [9, 5, 6, 7, 2, 8, 10, 12, 45, 2]
+// for (let i = 0; i < arr.length; i++) {
+//   for (let j = i + 1; j < arr.length; j++) {
+//     if(arr[j] < arr [i]) {
+//       let temp = arr[i]
+//       arr[i] = arr[j]
+//       arr[j] = temp
+//     }
+//   }
+// }
+// console.log(arr)
+/**
+ *    9 3 4 6 5 1   i = 0 ; j = 5
+ *    1 3 4 6 5 9   i = 0 ; j = 5
+ *
+ *
+ * ***/
 
 // function _new(Fn, ...args) {
 //   let obj = Object.create(Fn.prototype)
@@ -199,66 +142,80 @@
 //   return res instanceof Fn ? res : obj
 // }
 //
-// function Person(name, age) {
-//   this.age = age
+// function P(name, age) {
 //   this.name = name
+//   this.age = age
 // }
 //
-// let obj = _new(Person, '猪八戒', '12')
+// let obj = _new(P, '猪八戒', 12)
 // console.log(obj)
 
-// Function.prototype._apply = function(obj, ...args) {
+/**
+ *  1. 客户端发起请求 => 客户端能够正常发送请求    SYN J
+ *  2. 服务端接收请求, 然后响应请求 => 服务端能够正常接收请求且响应请求 SYN K ACK J+1
+ *  3. 客户端接收请求 => 客户端能够正常的接收请求 ACK K+1
+ * **/
+
+// function create(proto) {
+//   function F() {};
+//   F.prototype = proto; // 将原型挂在构造函数的prototype上
+//   F.prototype.constructor = F;
+//   return new F(); // 返回新对象
+// }
+//
+// console.log(create({name: '猪八戒'}.__proto__).constructor)
+
+// function Person(name) {
+//   this.name = name
+//   this.age = 10
+//   this.sayName = function () {
+//     console.log(this.name)
+//   }
+// }
+// // 原型链
+// function Son() {
+//   this.name = '猪八戒'
+// }
+// let son = new Son()
+// son.__proto__ = Person.prototype
+
+// bind方法 => 本来没有这个方法, 但是通过bind为他绑定这个方法
+// Function.prototype._bind = function () {
 //   let that = this
-//   obj.func = that
-//   obj.func(obj.name)
-// }
-//
-// function fn(name) {
-//   console.log(name)
-// }
-// let obj = { name: '驻巴基' }
-// fn._apply(obj, )
-
-// function deepClone(obj) {
-//   let data
-//   if(obj && typeof obj === 'object') {
-//     let str = Array.isArray(obj) ? [] : {}
-//     for (let i in obj) {
-//       data = deepClone(str[i])
-//     }
-//   } else {
-//     data = obj
-//   }
-//   return data
-// }
-
-// function debounce(func, wait) {
-//   let timer
-//   return function() {
-//     clearTimeout(timer)
-//     let that = this
-//     let args = Array.prototype.slice.call(arguments)
-//     let later = function() {
-//       clearTimeout(timer)
-//       func.apply(that, args)
-//     }
-//     timer = setTimeout(later, wait)
+//   let obj = Array.prototype.slice.call(arguments)[0]
+//   let arg1 = Array.prototype.slice.call(arguments, 1)
+//   return function () {
+//     that.apply(obj, arg1.concat(Array.prototype.slice.call(arguments)))
 //   }
 // }
 //
-// function throttle(func, wait, mustTime) {
-//   let start = new Date()
-//   let timer
-//   return function() {
-//     let that = this
-//     let args = Array.prototype.slice.call(arguments)
-//     let cur = new Date()
-//
-//   }
+// function P() {
+//   console.log(this)
+//   console.log("0")
+//   console.log(arguments)
 // }
+//
+// let a = { name: '猪八戒' }
+// P._bind(a, '2')()
 
-let arr = [1, 2, 3, 4, 5, 6, 7, 7, 8, 8]
-arr.reduce((pre, cur, index, arr) => {
-  console.log(pre, cur, index, arr)
-  return cur
-})
+// apply方法
+// Function.prototype._apply = function () {
+//   let that = Array.prototype.slice.call(arguments)[0]
+//   let args = Array.prototype.slice.call(arguments, 1)
+//   let uniqueId = '00' + Math.random()
+//   while(that.hasOwnProperty(uniqueId)) {
+//     uniqueId = '00' + Math.random()
+//   }
+//   that[uniqueId] = this
+//   let res = that[uniqueId](args)
+//   delete that[uniqueId]
+//   return res
+// }
+//
+// function P() {
+//   console.log(this.name)
+// }
+//
+// let a = { name: '猪八戒' }
+// P._apply(a)
+

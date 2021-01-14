@@ -23,6 +23,7 @@ objGreeting('JS')
      throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
    }
    return function() {
+     console.log(this)
      // 将bind时候传入的参数与新函数创建的参数合成为一个参数
      let funcArgs = args.concat(Array.prototype.slice.call(arguments))
      thatFunc.apply(thatArg, funcArgs)
