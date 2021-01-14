@@ -14,6 +14,19 @@ function _new(Obj, ...args) {
   return result instanceof Object ? result : obj
 }
 
+function _new2() {
+  // 创建一个对象
+  let obj = {}
+  // 获得构造参数
+  let Con = [].shift.call(arguments)
+  // 链接到原型(给obj这个新生对象的原型指向它的构造函数的原型)
+  obj.__proto__ = Con.prototype
+  // 绑定this
+  let result = Con.apply(obj, arguments)
+  // 确保new出来的是一个对象
+  return result instanceof Con ? result : obj
+}
+
 function Person(name, age) {
   this.name = name
   this.age = age

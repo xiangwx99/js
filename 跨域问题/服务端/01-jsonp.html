@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+  function fetchjsonp(res) {
+    console.log(res) // 可以获得服务端的数据，{data: "json data"}
+  }
+  const script = document.createElement('script')
+  script.src = 'http://127.0.0.1:5000?callback=fetchjsonp'
+  document.head.appendChild(script)
+</script>
+</body>
+</html>

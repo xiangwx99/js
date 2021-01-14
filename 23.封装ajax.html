@@ -7,6 +7,13 @@
 <body>
 
 <script>
+  /**
+   * 0: 未初始化, 尚未调用open()方法
+   * 1: 启动, 此时已调用了open()方法, 但是还没有调用send()方法
+   * 2: 发送, 此时已经调用send方法, 但是还没有收到来自服务器的响应
+   * 3: 接收, 已经接收到部分响应
+   * 4: 完成, 已经接收到全部响应数据而且可以在客户端响应
+   * **/
   function _ajax(method, data, url, success) {
     let xml = new XMLHttpRequest()
     if(method === 'get') {
