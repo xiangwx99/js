@@ -219,3 +219,36 @@
 // let a = { name: '猪八戒' }
 // P._apply(a)
 
+//
+
+// 原型链继承
+// function Person() {
+//   this.age = 12
+// }
+//
+// function Son() {
+//   this.name = "a"
+// }
+//
+// Son.prototype = new Person()
+// let son = new Son()
+// console.log(son.age)
+
+// // 构造函数继承
+// function createObj(name) {
+//   this.name = name
+// }
+//
+// function a(name) {
+//   return createObj.call(this, name)
+// }
+//
+// let b = new a("猪八戒")
+// console.log(b)
+
+// 组合继承
+function create(obj) {
+  function F() {}
+  F.prototype = obj
+  return new F()
+}
