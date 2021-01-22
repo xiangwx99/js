@@ -62,6 +62,15 @@ function duplicateRemoval7(arr) {
   return arr.reduce((prev, cur) => prev.includes(cur) ? prev : [...prev, cur], [])
 }
 
+// 8.使用特殊方法, 时间复杂度为O(n)
+function duplicateRemoval8(arr) {
+  let obj = {};
+  arr.forEach((item) => {
+    obj[item] = '';
+  })
+  return Object.keys(obj)
+}
+
 
 let arr = [1, 2, 4, 4, 5, 6, 6, 7, 7, 1, 1, 3, 3]
 console.log(duplicateRemoval3(arr))

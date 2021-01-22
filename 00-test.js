@@ -106,4 +106,77 @@
  *              display: block
  *              clear: both
  *  开启bfc: 浮动; overflow: auto|hidden|scroll;
+ *
+ *  1: syn = 1, seq = x
+ *  2: syn = 1, ack = x + 1, ACK = 1; seq = y
+ *  3: ACK = 1, seq = x + 1, ack = y + 1
  * **/
+/**
+ *  1.类, id, 标签, 属性, 后代, 伪类
+ *  2.for循环, 先sort()再去重, indexof, filter, include, indexOf
+ *  3.数组方法: filter, reduce, map, include, findIndex, indexOf, findIndexOf, forEach, sort(), splice, slice, concat, reserve, join, push, pop, shift
+ *  4.vuex: state, mutation, getter, action,
+ * **/
+/**
+ * 1.原子性
+ * 2.一致性
+ * 3.持久性
+ * 4.隔离性
+ * **/
+Function.prototype._bind = function () {
+  let content = Array.prototype.slice.call(arguments)[0]
+  let arg1 = Array.prototype.slice.call(arguments, 1)
+  let thatFunc = this
+  return function () {
+    thatFunc.apply(content, arg1.concat(Array.prototype.slice.call(arguments)))
+  }
+}
+
+Function.prototype._apply = function (obj, ...args) {
+  obj = window || obj
+  let unqied = "00" + Math.random()
+  while(obj.hasOwnProperty(unqied)) {
+    unqied = "00" + Math.random()
+  }
+  obj[unqied] = this
+  let res = obj[unqied](args)
+  delete obj[unqied]
+  return res
+}
+
+function debounce(func, wait) {
+  let timer
+  return function () {
+    if(timer) clearTimeout(timer)
+    let content = this, argument = Array.prototype.slice.call(arguments)
+    let latter = function () {
+      clearTimeout(timer)
+      func.apply(content, argument)
+    }
+    timer = setTimeout(latter, wait)
+  }
+}
+
+function throttle(func, wait, mustT) {
+  let start = Date.now(), timer
+  return function () {
+    let cur = Date.now()
+    if(cur - start > mustT) {
+      func(this, arguments)
+      start = cur
+    } else {
+      timer = setTimeout(func, wait)
+    }
+  }
+}
+
+let count = 0, stack = [tree], res = []
+function breathFirst() {
+  if(stack[count]) {
+    res.push(stack[count].value)
+    stack.push(stack[count].left)
+    stack.push(stack[count].right)
+    count ++
+    breathFirst()
+  }
+}
