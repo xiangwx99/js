@@ -123,60 +123,119 @@
  * 3.持久性
  * 4.隔离性
  * **/
-Function.prototype._bind = function () {
-  let content = Array.prototype.slice.call(arguments)[0]
-  let arg1 = Array.prototype.slice.call(arguments, 1)
-  let thatFunc = this
-  return function () {
-    thatFunc.apply(content, arg1.concat(Array.prototype.slice.call(arguments)))
-  }
-}
+// Function.prototype._bind = function () {
+//   let content = Array.prototype.slice.call(arguments)[0]
+//   let arg1 = Array.prototype.slice.call(arguments, 1)
+//   let thatFunc = this
+//   return function () {
+//     thatFunc.apply(content, arg1.concat(Array.prototype.slice.call(arguments)))
+//   }
+// }
+//
+// Function.prototype._apply = function (obj, ...args) {
+//   obj = window || obj
+//   let unqied = "00" + Math.random()
+//   while(obj.hasOwnProperty(unqied)) {
+//     unqied = "00" + Math.random()
+//   }
+//   obj[unqied] = this
+//   let res = obj[unqied](args)
+//   delete obj[unqied]
+//   return res
+// }
+//
+// function debounce(func, wait) {
+//   let timer
+//   return function () {
+//     if(timer) clearTimeout(timer)
+//     let content = this, argument = Array.prototype.slice.call(arguments)
+//     let latter = function () {
+//       clearTimeout(timer)
+//       func.apply(content, argument)
+//     }
+//     timer = setTimeout(latter, wait)
+//   }
+// }
+//
+// function throttle(func, wait, mustT) {
+//   let start = Date.now(), timer
+//   return function () {
+//     let cur = Date.now()
+//     if(cur - start > mustT) {
+//       func(this, arguments)
+//       start = cur
+//     } else {
+//       timer = setTimeout(func, wait)
+//     }
+//   }
+// }
+//
+// let count = 0, stack = [tree], res = []
+// function breathFirst() {
+//   if(stack[count]) {
+//     res.push(stack[count].value)
+//     stack.push(stack[count].left)
+//     stack.push(stack[count].right)
+//     count ++
+//     breathFirst()
+//   }
+// }
 
-Function.prototype._apply = function (obj, ...args) {
-  obj = window || obj
-  let unqied = "00" + Math.random()
-  while(obj.hasOwnProperty(unqied)) {
-    unqied = "00" + Math.random()
-  }
-  obj[unqied] = this
-  let res = obj[unqied](args)
-  delete obj[unqied]
-  return res
-}
+/**
+ *  301: 永久重定向 => 访问的资源已经分配了新的url, 以后应该使用现在的url
+ *  302: 临时重定向 => 访问的资源已经暂时被
+ * **/
 
-function debounce(func, wait) {
-  let timer
-  return function () {
-    if(timer) clearTimeout(timer)
-    let content = this, argument = Array.prototype.slice.call(arguments)
-    let latter = function () {
-      clearTimeout(timer)
-      func.apply(content, argument)
-    }
-    timer = setTimeout(latter, wait)
-  }
-}
 
-function throttle(func, wait, mustT) {
-  let start = Date.now(), timer
-  return function () {
-    let cur = Date.now()
-    if(cur - start > mustT) {
-      func(this, arguments)
-      start = cur
-    } else {
-      timer = setTimeout(func, wait)
-    }
-  }
-}
+// function curry(func, curArgs) {
+//   return function() {
+//     let args = [].slice.call(arguments)
+//     if (curArgs !== undefined) {
+//       args = args.concat(curArgs)
+//     }
+//     if (args.length < func.length) {
+//       return curry(func, args)
+//     }
+//     console.log(args)
+//     return func.apply(null, args)
+//   }
+// }
+//
+// function sum(a, b, c) {
+//   return a + b + c
+// }
+//
+// let fn = curry(sum)
+// console.log(fn(1, 3)(2))
 
-let count = 0, stack = [tree], res = []
-function breathFirst() {
-  if(stack[count]) {
-    res.push(stack[count].value)
-    stack.push(stack[count].left)
-    stack.push(stack[count].right)
-    count ++
-    breathFirst()
-  }
+// function curry(func, curryArgs) {
+//   return function() {
+//     let args = Array.prototype.slice.call(arguments)
+//     if (curryArgs !== undefined) {
+//       args = args.concat(curryArgs)
+//     }
+//     if (args.length < func.length) {
+//       return curry(func, args)
+//     }
+//     return func.apply(null, args)
+//   }
+// }
+//
+// function sum(a, b, c) {
+//   return a + b + c
+// }
+//
+// let fn = curry(sum)
+// console.log(fn(1)(2, 3))
+
+// function _new() {
+//   let fn = [].slice.call(arguments)[0]
+//   let args = [].slice.call(arguments, 1)
+//   let obj = Object.create(fn.prototype)
+//   let res = fn.apply(obj, args)
+//
+// }
+
+Function.prototype._apply = function () {
+
 }

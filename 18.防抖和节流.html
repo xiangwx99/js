@@ -41,13 +41,13 @@
         }
 
         let input = document.getElementById('input')
-        // input.addEventListener('input', debounce(function() {
-        //     console.log("====>")
-        // }, 2000))
+        input.addEventListener('input', debounce(function() {
+            console.log("====>")
+        }, 2000))
 
-        input.addEventListener('input', throttle(function() {
-          console.log("=====>throttle")
-        }, 1000))
+        // input.addEventListener('input', throttle(function() {
+        //   console.log("=====>throttle")
+        // }, 1000))
     </script>
     </body>
 </html>
