@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <example :tags="['h1', 'h2', 'h3']"></example>
+</div>
+
+<script>
+  // 定义example组件
+  Vue.component('example', {
+    props: ['tags'],
+    render (h) {
+      // 第二个参数是一个包含模板相关属性的数据对象，可选参数
+      return h('div', this.tags.map((tag, i) => h(tag, i)))
+    }
+  })
+
+  // 实例化
+  new Vue({ el: '#app' })
+</script>
+</body>
+</html>

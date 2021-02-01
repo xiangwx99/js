@@ -14,5 +14,5 @@ function flat(array) {
   return newArr
 }
 
-let arr = [1, [2, 3, 4], 5, [6, 7], 8]
-console.log(flat(arr))
+let arr = [1, [2, 3, 4], 5, [6, 7], 8, 8, 1]
+console.log([...new Set(flat(arr))].sort())
