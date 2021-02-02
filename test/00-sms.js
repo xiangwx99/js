@@ -31,20 +31,46 @@ function _Promise(constructor) {
 }
 
 _Promise.prototype.then = function (onFullfilled, onRejected) {
-  let self = this
+  let self = this, $_promise
   switch (self.value) {
     case "pending":
-      self.onFullfilledArray.push(function () {
-        onFullfilled(self.value)
-      })
-      self.onRejectedArray.push(function () {
-        onRejected(self.reason)
+      $_promise = new _Promise(function (resolve, reject) {
+        self.onFullfilledArray.push(function () {
+          try {
+            let temple = onFullfilled(self.value)
+            resolve(temple)
+          } catch (e) {
+            reject(e)
+          }
+        })
+        self.onRejectedArray.push(function () {
+          try {
+            let temple = onRejected(self.reason)
+            reject(temple)
+          } catch (e) {
+            reject(e)
+          }
+        })
       })
     case "resolved":
-      onFullfilled(self.value)
+      $_promise = new _Promise(function (resolve, reject) {
+        try {
+          let temple = onFullfilled(self.value)
+          resolve(temple)
+        } catch (e) {
+          reject(e)
+        }
+      })
       break
     case "rejected":
-      onRejected(self.reason)
+      $_promise = new _Promise(function (resolve, reject) {
+        try {
+          let temple = onRejected(self.reason)
+          reject(temple)
+        } catch (e) {
+          reject(e)
+        }
+      })
       break
     default:
       break

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--  数据劫持, 依赖收集, 发布订阅模式  -->
+    <div id="app">
+        <div>价格: {{price}}</div>
+        <div>数量: {{total}}</div>
+        <div>总价钱: {{getAllPrice}}</div>
+        <div>数组: {{arr}}</div>
+        <button @click="changeTotal">total + 10</button>
+    </div>
+    <script src="../vue.min.js"></script>
+    <script>
+        var app = new Vue({
+          el: "#app",
+          data() {
+            return {
+              price: 100,
+              total: 10,
+              arr: [1, 2, 3]
+            }
+          },
+          methods: {
+            changeTotal() {
+              this.total += 10
+              this.arr[0] = 123
+            }
+          },
+          computed: {
+            getAllPrice() {
+              return this.total * this.price
+            }
+          }
+        })
+    </script>
+</body>
+</html>

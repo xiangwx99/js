@@ -4,3 +4,13 @@
  *
  *  增删: 没有key的情况， 节点位置不变，内容也更新了 ; 有key的情况， 节点删除了 A, B 节点，新增了 F, G 节点
  * **/
+
+
+/**
+ * beforeCreated => created => beforeMounted => 子 => mounted
+ *
+ * **/
+console.log({ name: "KoBe" }.toString())
+console.log(Number(""))
+console.log(Number([]))
+// number string boolean null undefined
